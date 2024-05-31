@@ -8,8 +8,8 @@ import {
   json,
 } from "drizzle-orm/pg-core";
 
-const weighEnum = pgEnum("weight_units", ["kg", "lb"]);
-const heightEnum = pgEnum("height_units", ["cm", "in"]);
+export const weighEnum = pgEnum("weight_units", ["kg", "lb"]);
+export const heightEnum = pgEnum("height_units", ["cm", "in"]);
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
