@@ -1,0 +1,7 @@
+import getExercises from "@/wger/getExercises";
+
+export default async function Page() {
+  const exercises = await getExercises(new URLSearchParams());
+  console.log(exercises);
+  return <div></div>;
+}
