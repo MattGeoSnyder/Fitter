@@ -25,14 +25,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
+        <body className={`${inter.className} h-screen w-screen`}>
+          <div id="main-wrapper" className="flex flex-col w-full h-full">
+            <div id="banner" className="h-16">
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </div>
+            <div id="content-wrapper" className="flex-1 md:px-28 px-4 py-4">{children}</div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

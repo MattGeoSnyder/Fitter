@@ -3,7 +3,7 @@ import { ExerciseSearchBar } from "@/app/components/exerciseSearchBar";
 
 export default async function Page(params: URLSearchParams) {
   return (
-    <div>
+    <div id="page">
       <div>
         <ExerciseSearchBar params={params} />
       </div>

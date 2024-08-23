@@ -1,13 +1,27 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 
-//BIG TODO!: Add typing
-export const SearchBar = (searchItems: any[]) => {
+
+interface SearchItem {
+	id: number;
+	name: string;
+}
+
+export function SearchBar <T extends SearchItem>({ searchItems }: { searchItems: T[] }) {
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<T[]>([]);
+  const [isFocused, setIsFocused] = useState<Boolean>(false);
 
-  const filter = (searchItems: any[]) => {
-    // Idea: Instead of filter try a groupBy function
+  const filter = (searchItems: T[]) => {
+    // TODO: Implement idea. Instead of filter try a groupBy function
     const results = searchItems.filter((item) => {
       return item.name.toLowerCase().includes(searchTerm.toLowerCase());
     });
@@ -20,20 +34,29 @@ export const SearchBar = (searchItems: any[]) => {
   }, [searchTerm]);
 
   return (
-    <div>
-      <input
-        type="text"
+    <Command>
+      <Input
         placeholder="Search"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setSearchTerm(e.target.value);
+        }}
+	onFocus={() => { 
+		setIsFocused(true);
+	}}
+	onBlur={() => {
+		setIsFocused(false);
+	}}
       />
-
-      <div>
-        {results.map((item) => (
-          /* TODO: make this a component */
-          <div key={item.id}>{item.name}</div>
-        ))}
-      </div>
-    </div>
+      <CommandList className={`${!isFocused ? 'max-h-0' : 'max-h-full'} animate-accordion-down` } >
+        <CommandGroup>
+          {results.map((item) => (
+            <CommandItem key={item.id}>
+              <span>{item.name}</span>
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </Command>
   );
 };
