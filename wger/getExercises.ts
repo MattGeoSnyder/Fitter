@@ -1,15 +1,26 @@
-export default async function getExercises(params: URLSearchParams): Promise<any[]> {
-  let checkParams = (toCheck: IterableIterator<string>, params:URLSearchParams) => {
-    let has = Array.from(toCheck).every((param: string) => params.has(param));
+type Exercise = {
+	id: number;
+	uuid: string;
+	name: string;
+	exercise_base: number;
+	description: string;
+	category: number;
+	muscles: number[];
+	muscles_secondary: number[];
+	equipment: number[];
+	language: number;
+	variations: number[];
+};
 
-    if (!has) {
-      throw new Error("Missing parameters");
-    }
-  };
+export default async function getExercises(
+  params: URLSearchParams,
+): Promise<Exercise[]> {
 
-  let res = await fetch("https://wger.de/api/v2/exercise/");
+  type myReq = RequestInit;
+  let res = await fetch("https://wger.de/api/v2/exercise/?language=2&limit=20&offset=20", {
+    headers: { Accept: "application/json", "Content-Type": "application/json" },
+  });
   let exercises = await res.json();
-  console.log(exercises);
 
-  return exercises;
+  return exercises.results;
 }
